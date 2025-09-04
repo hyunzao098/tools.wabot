@@ -256,6 +256,18 @@ ipcRenderer.on('show-profile-session2', () => {
 ipcRenderer.on("update-message", (e, message) => {
   showNotification(message);
 });
+ipcRenderer.on("update-message", (e, msg) => {
+  document.getElementById("update-info").innerText = msg;
+  
+  if (msg.includes("siap")) {
+    const btn = document.createElement("button");
+    btn.innerText = "Restart Sekarang";
+    btn.onclick = () => {
+      ipcRenderer.invoke("confirm-update");
+    };
+    document.body.appendChild(btn);
+  }
+});
 
 
 // === Load Keywords ===

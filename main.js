@@ -308,6 +308,16 @@ autoUpdater.on("update-available", () => {
     win.webContents.send("update-message", "🚀 Update baru tersedia, sedang diunduh...");
   }
 });
+autoUpdater.on("update-downloaded", () => {
+  if (win) {
+    win.webContents.send("update-message", "✅ Update siap. Klik 'Restart' untuk install.");
+  }
+
+  // jangan langsung auto restart, tunggu user
+  ipcMain.once("confirm-update", () => {
+    autoUpdater.quitAndInstall();
+  });
+});
 
 autoUpdater.on("update-downloaded", () => {
   if (win) {
