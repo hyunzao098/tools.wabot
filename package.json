@@ -1,6 +1,6 @@
 {
   "name": "bot-whatsapp",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Tools WhatsApp Bot By Hyun09",
   "main": "main.js",
   "scripts": {
@@ -73,7 +73,6 @@
       ],
       "icon": "assets/waweb.ico",
       "artifactName": "BOT-WHATSAPP-Setup-${version}.${ext}"
-
     }
   },
   "nsis": {
