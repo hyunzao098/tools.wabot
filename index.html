@@ -201,22 +201,18 @@
     </div>
   </div>
 </div>
-<!-- 🔔 Info Update -->
 <!-- Panel Update -->
-<div id="update-panel" style="display:none;position:fixed;bottom:20px;right:20px;
-     background:#fff;border-radius:10px;padding:15px;width:300px;
-     box-shadow:0 4px 12px rgba(0,0,0,0.2);font-family:sans-serif;z-index:9999;">
-  <h3 style="margin:0 0 10px 0;">🚀 Update Aplikasi</h3>
-  <p id="update-status">🔍 Memeriksa update...</p>
-  
-  <!-- Progress -->
-  <div id="update-progress-container" style="background:#eee;height:8px;border-radius:4px;overflow:hidden;display:none;">
-    <div id="update-progress-bar" style="background:#4caf50;width:0%;height:8px;"></div>
+<div id="update-panel">
+  <div class="update-header">
+    <span id="update-icon">🚀</span>
+    <span id="update-status">🔍 Memeriksa update...</span>
   </div>
-
-  <!-- Tombol -->
-  <div id="update-buttons" style="margin-top:10px;display:flex;gap:10px;justify-content:flex-end;"></div>
+  <div id="update-progress-container">
+    <div id="update-progress-bar"></div>
+  </div>
+  <div id="update-buttons"></div>
 </div>
+
 
 
   <!-- Notifikasi -->

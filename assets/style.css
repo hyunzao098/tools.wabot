@@ -456,3 +456,68 @@ textarea::-webkit-scrollbar-track { background: #2b3a4a; }
 @media (max-width: 400px) {
   #qr-image { max-width: 180px; }
 }
+/* Panel Update */
+#update-panel {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: #1e293b;
+  color: #fff;
+  padding: 10px 20px;
+  border-top: 2px solid #334155;
+  display: none; /* default hidden */
+  flex-direction: column;
+  z-index: 1000;
+  font-family: "Segoe UI", sans-serif;
+}
+
+#update-panel .update-header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+#update-progress-container {
+  margin-top: 6px;
+  width: 100%;
+  height: 6px;
+  background: #334155;
+  border-radius: 4px;
+  overflow: hidden;
+  display: none;
+}
+
+#update-progress-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #22c55e, #16a34a);
+  transition: width 0.3s ease;
+}
+
+#update-buttons {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+}
+
+#update-buttons button {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+#update-buttons .primary {
+  background: #22c55e;
+  color: white;
+}
+
+#update-buttons .secondary {
+  background: #475569;
+  color: white;
+}
