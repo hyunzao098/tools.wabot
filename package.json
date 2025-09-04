@@ -1,0 +1,71 @@
+{
+  "name": "bot-whatsapp",
+  "version": "1.0.0",
+  "description": "Tools WhatsApp Bot By Hyun09",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder",
+    "postinstall": "puppeteer install",
+    "release": "npm run bump && npm run dist",
+    "bump": "npm version patch --no-git-tag-version"
+  },
+  "author": "Hyun09",
+  "license": "ISC",
+  "dependencies": {
+    "electron-updater": "^6.6.2",
+    "express": "^5.1.0",
+    "fd-slicer": "^1.1.0",
+    "puppeteer": "^24.18.0",
+    "qrcode": "^1.5.4",
+    "qrcode-terminal": "^0.12.0",
+    "whatsapp-web.js": "^1.33.2"
+  },
+  "devDependencies": {
+    "electron": "^37.4.0",
+    "electron-builder": "^26.0.12"
+  },
+  "build": {
+    "appId": "com.hyun.bot",
+    "productName": "BOT WHATSAPP",
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "hyunzao098",
+        "repo": "tools.wabot"
+      }
+    ],
+    "directories": {
+      "buildResources": "build"
+    },
+    "files": [
+      "**/*",
+      "node_modules/fd-slicer/**",
+      "node_modules/extract-zip/**",
+      "node_modules/puppeteer/.local-chromium/**",
+      "!node_modules/*/{test,__tests__,tests}/**",
+      "!**/*.md",
+      "!**/*.map"
+    ],
+    "extraResources": [
+      { "from": "keywords.json", "to": "keywords.json" },
+      { "from": "default_message.json", "to": "default_message.json" },
+      { "from": "sent_defaults.json", "to": "sent_defaults.json" }
+    ],
+    "asarUnpack": [
+      "node_modules/fd-slicer",
+      "node_modules/extract-zip",
+      "node_modules/puppeteer/.local-chromium/**"
+    ],
+    "win": {
+      "target": ["nsis", "portable"],
+      "icon": "assets/waweb.ico"
+    }
+  },
+  "nsis": {
+    "oneClick": true,
+    "perMachine": false,
+    "allowToChangeInstallationDirectory": false,
+    "deleteAppDataOnUninstall": false
+  }
+}

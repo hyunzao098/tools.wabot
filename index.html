@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>WhatsApp Tools - By Hyn09</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <header><h1>🤖 PANEL BOT</h1></header>
+<!-- 🔥 Menu Bar -->
+<nav class="menu-bar">
+  <button data-target="user-section">👤 User</button>
+  <button data-target="keyword-section">⚙️ Keyword</button>
+  <button data-target="default-section">💬 Pesan Default</button>
+</nav>
+
+  <main>
+    <!-- User Info + QR -->
+<section id="user-section" class="content-section" style="display:none;">
+  <!-- User 1 -->
+  <div id="user1-container">
+    <h2>📱 Nomor 1</h2>
+    <div class="user-card" id="user-card-1" style="display:none;">
+      <img id="profile-pic-1" class="user-avatar" style="display:none;" />
+      <div class="user-details">
+        <p><strong>Nomor :</strong> <span id="user-number-1">-</span></p>
+        <p><strong>Nama :</strong> <span id="user-name-1">-</span></p>
+        <p><strong>Platform :</strong> <span id="user-platform-1">-</span></p>
+      </div>
+    </div>
+    <div class="qr-area">
+      <img id="qr-image-1" />
+      <button id="logout-btn-1" class="danger" style="display:none;">🔒 Logout</button>
+      <div id="qr-status-1">Mohon Ditunggu.......</div>
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- User 2 -->
+  <div id="user2-container">
+    <h2>📱 Nomor 2</h2>
+    <div class="user-card" id="user-card-2" style="display:none;">
+      <img id="profile-pic-2" class="user-avatar" style="display:none;" />
+      <div class="user-details">
+        <p><strong>Nomor :</strong> <span id="user-number-2">-</span></p>
+        <p><strong>Nama :</strong> <span id="user-name-2">-</span></p>
+        <p><strong>Platform :</strong> <span id="user-platform-2">-</span></p>
+      </div>
+    </div>
+    <div class="qr-area">
+      <img id="qr-image-2" />
+      <button id="logout-btn-2" class="danger" style="display:none;">🔒 Logout</button>
+      <div id="qr-status-2">Mohon Ditunggu.......</div>
+    </div>
+  </div>
+</section>
+
+
+
+    <!-- Keyword Management -->
+<section id="keyword-section" class="content-section" style="display:none;">
+  <h2>⚙️ Kelola Keyword</h2>
+
+  <!-- User 1 -->
+  <div class="section-card">
+    <h3>👤 User 1</h3>
+    <form id="keyword-form-1">
+      <input type="text" id="keyword-input-1" placeholder="Keyword" required />
+      <textarea id="response-input-1" placeholder="Response" rows="6" required></textarea>
+      <input type="file" id="image-input-1" accept="image/*" />
+      <button type="submit" class="primary">Tambah</button>
+        <button type="button" id="cancel-edit-1" class="danger" style="display:none;">Cancel</button>
+
+    </form>
+    <ul id="keyword-list-1"></ul>
+  </div>
+
+  <!-- User 2 -->
+  <div class="section-card">
+    <h3>👤 User 2</h3>
+    <form id="keyword-form-2">
+      <input type="text" id="keyword-input-2" placeholder="Keyword" required />
+      <textarea id="response-input-2" placeholder="Response" rows="6" required></textarea>
+      <input type="file" id="image-input-2" accept="image/*" />
+      <button type="submit" class="primary">Tambah</button>
+      <button type="button" id="cancel-edit-2" class="danger" style="display:none;">Cancel</button>
+    </form>
+    <ul id="keyword-list-2"></ul>
+  </div>
+</section>
+
+<!-- Default Message Management -->
+<section id="default-section" class="content-section" style="display:none;">
+  <h2>💬 Pesan Default</h2>
+
+  <!-- User 1 -->
+  <div class="section-card">
+    <h3>👤 User 1</h3>
+    <textarea id="default-message-input-1" rows="6"></textarea>
+    <button id="save-default-message-1" class="primary">💾 Simpan</button>
+    <button id="reset-default-sent-1" class="danger">♻️ Reset</button>
+  </div>
+
+  <!-- User 2 -->
+  <div class="section-card">
+    <h3>👤 User 2</h3>
+    <textarea id="default-message-input-2" rows="6"></textarea>
+    <button id="save-default-message-2" class="primary">💾 Simpan</button>
+    <button id="reset-default-sent-2" class="danger">♻️ Reset</button>
+  </div>
+        <!-- 🔥 Tambahan: Atur timer -->
+      <div style="margin-top:15px;">
+        <label>⏱ Interval Reset: </label>
+        <select id="reset-hours">
+          <option value="0">0 Jam</option>
+          <option value="1">1 Jam</option>
+          <option value="2">2 Jam</option>
+          <option value="3">3 Jam</option>
+          <option value="6">6 Jam</option>
+          <option value="12">12 Jam</option>
+          <option value="24">24 Jam</option>
+        </select>
+        <select id="reset-minutes">
+          <option value="0">0 Menit</option>
+          <option value="5">5 Menit</option>
+          <option value="10">10 Menit</option>
+          <option value="15">15 Menit</option>
+          <option value="30">30 Menit</option>
+          <option value="45">45 Menit</option>
+        </select>
+        <button id="save-interval" class="primary">Simpan Interval</button>
+      </div>
+      <p style="color:#999; font-size:0.9em; margin-top:8px;">
+        Reset otomatis berjalan sesuai interval yang ditentukan. Default 24 jam.
+      </p>
+    </section>
+  </main>
+
+  <!-- Modal Konfirmasi Reset -->
+  <div id="confirm-modal">
+    <div id="confirm-box">
+      <p>Yakin ingin reset atau hapus ?</p>
+      <div>
+        <button id="confirm-no">Batal</button>
+        <button id="confirm-yes">Oke</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Konfirmasi Logout -->
+  <div id="logout-modal">
+    <div id="logout-box">
+      <p>Yakin ingin logout dan reset QR WhatsApp?</p>
+      <div>
+        <button id="logout-no">Batal</button>
+        <button id="logout-yes">Ya, Logout</button>
+      </div>
+    </div>
+  </div>
+  <!-- 🔥 Popup Modal -->
+<div id="welcome-modal" class="modal-overlay">
+  <div class="modal-box">
+    <h2>⚠️ PERINGATAN!</h2>
+    <p>Gunakan dengan bijak agar tidak diblokir WhatsApp 🚫</p>
+    <button id="close-welcome">OK</button>
+  </div>
+</div>
+
+  <!-- Notifikasi -->
+  <div id="notification"></div>
+
+  <!-- Script utama -->
+  <script>
+    const { ipcRenderer } = window.electron;
+
+    function showNotification(message, type = "success") {
+      const notif = document.getElementById("notification");
+      notif.textContent = message;
+      notif.classList.remove("error");
+      if (type === "error") notif.classList.add("error");
+      notif.style.display = "block";
+      setTimeout(() => { notif.style.display = "none"; }, 3000);
+    }
+
+    // === QR Code ===
+// === Session 1 ===
+ipcRenderer.on('qr-session1', (e, dataUrl) => {
+  const qrImg = document.getElementById('qr-image-1');
+  qrImg.src = dataUrl;
+  qrImg.style.display = 'block';
+});
+
+ipcRenderer.on('qr-status-session1', (e, message) => {
+  document.getElementById('qr-status-1').textContent = message;
+});
+
+ipcRenderer.on('hide-qr-session1', () => {
+  document.getElementById('qr-image-1').style.display = 'none';
+  document.getElementById('logout-btn-1').style.display = 'inline-block';
+});
+
+ipcRenderer.on('user-info-session1', (e, info) => {
+  document.getElementById('user-number-1').textContent = info.user;
+  document.getElementById('user-name-1').textContent = info.name || "-";
+  document.getElementById('user-platform-1').textContent = info.platform;
+
+  const img = document.getElementById('profile-pic-1');
+  if (info.profilePic) {
+    img.src = info.profilePic;
+    img.style.display = 'block';
+  } else {
+    img.style.display = 'none';
+  }
+});
+
+ipcRenderer.on('show-profile-session1', () => {
+  document.getElementById("user-card-1").style.display = "flex";
+});
+
+
+// === Session 2 ===
+ipcRenderer.on('qr-session2', (e, dataUrl) => {
+  const qrImg = document.getElementById('qr-image-2');
+  qrImg.src = dataUrl;
+  qrImg.style.display = 'block';
+});
+
+ipcRenderer.on('qr-status-session2', (e, message) => {
+  document.getElementById('qr-status-2').textContent = message;
+});
+
+ipcRenderer.on('hide-qr-session2', () => {
+  document.getElementById('qr-image-2').style.display = 'none';
+  document.getElementById('logout-btn-2').style.display = 'inline-block';
+});
+
+ipcRenderer.on('user-info-session2', (e, info) => {
+  document.getElementById('user-number-2').textContent = info.user;
+  document.getElementById('user-name-2').textContent = info.name || "-";
+  document.getElementById('user-platform-2').textContent = info.platform;
+
+  const img = document.getElementById('profile-pic-2');
+  if (info.profilePic) {
+    img.src = info.profilePic;
+    img.style.display = 'block';
+  } else {
+    img.style.display = 'none';
+  }
+});
+
+ipcRenderer.on('show-profile-session2', () => {
+  document.getElementById("user-card-2").style.display = "flex";
+});
+ipcRenderer.on("update-message", (e, message) => {
+  showNotification(message);
+});
+
+
+// === Load Keywords ===
+async function loadKeywords(sessionId, listId) {
+  const keywords = await ipcRenderer.invoke("get-keywords", sessionId);
+  const ul = document.getElementById(listId);
+  ul.innerHTML = "";
+
+  keywords.forEach((item, idx) => {
+    const li = document.createElement("li");
+    li.innerHTML = `
+  <strong>${item.keyword}</strong><br>
+  <em>${item.response}</em>
+  ${item.image ? `<br><img src="${item.image}" style="max-width:120px;margin-top:5px;">` : ""}
+  <button data-idx="${idx}" class="edit-btn primary">✏️ Edit</button>
+  <button data-idx="${idx}" class="delete-btn danger">🗑️ Hapus</button>
+`;
+    ul.appendChild(li);
+    // Tombol Edit
+// Tombol Edit
+li.querySelector(".edit-btn").addEventListener("click", () => {
+  const formId = listId.includes("1") ? "keyword-form-1" : "keyword-form-2";
+  const form = document.getElementById(formId);
+
+  const keywordInput = form.querySelector("input[type='text']");
+  const responseInput = form.querySelector("textarea");
+
+  keywordInput.value = item.keyword;
+  responseInput.value = item.response;
+
+  // Simpan index keyword yang sedang diedit
+  form.setAttribute("data-edit-index", idx);
+  const cancelBtn = form.querySelector("button[id^='cancel-edit']");
+  if (cancelBtn) cancelBtn.style.display = "inline-block";
+});
+
+
+    li.querySelector(".delete-btn").addEventListener("click", async () => {
+      await ipcRenderer.invoke("delete-keyword", { sessionId, index: idx });
+      loadKeywords(sessionId, listId);
+    });
+  });
+}
+
+// === Load Default Message ===
+async function loadDefaultMessage(sessionId, inputId) {
+  const msg = await ipcRenderer.invoke("get-default-message", sessionId);
+  document.getElementById(inputId).value = msg;
+}
+
+// Init saat buka halaman
+window.addEventListener("DOMContentLoaded", () => {
+  loadKeywords("session1", "keyword-list-1");
+  loadKeywords("session2", "keyword-list-2");
+  loadDefaultMessage("session1", "default-message-input-1");
+  loadDefaultMessage("session2", "default-message-input-2");
+});
+  // Helper untuk konversi file -> base64
+function toBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+// === Keyword User 1 ===
+document.getElementById("keyword-form-1").addEventListener("submit", async e => {
+  e.preventDefault();
+  const form = e.target;
+  const keyword = document.getElementById("keyword-input-1").value.trim();
+  const response = document.getElementById("response-input-1").value.trim();
+  const file = document.getElementById("image-input-1").files[0];
+
+  if (!keyword || !response) return showNotification("Isi keyword & response!", "error");
+
+  let imageBase64 = null;
+  if (file) imageBase64 = await toBase64(file);
+
+  const editIndex = form.getAttribute("data-edit-index");
+  if (editIndex !== null) {
+    await ipcRenderer.invoke("edit-keyword", { 
+      sessionId: "session1", 
+      index: parseInt(editIndex, 10),
+      data: { keyword, response, image: imageBase64 }
+    });
+    form.removeAttribute("data-edit-index");
+    document.getElementById("cancel-edit-1").style.display = "none"; 
+  } else {
+    await ipcRenderer.invoke("add-keyword", { 
+      sessionId: "session1", 
+      data: { keyword, response, image: imageBase64 }
+    });
+  }
+
+  loadKeywords("session1", "keyword-list-1");
+  e.target.reset();
+});
+
+
+
+// === Keyword User 2 ===
+document.getElementById("keyword-form-2").addEventListener("submit", async e => {
+  e.preventDefault();
+  const form = e.target;
+  const keyword = document.getElementById("keyword-input-2").value.trim();
+  const response = document.getElementById("response-input-2").value.trim();
+  const file = document.getElementById("image-input-2").files[0];
+
+  if (!keyword || !response) return showNotification("Isi keyword & response!", "error");
+
+  let imageBase64 = null;
+  if (file) imageBase64 = await toBase64(file);
+
+  const editIndex = form.getAttribute("data-edit-index");
+  if (editIndex !== null) {
+    await ipcRenderer.invoke("edit-keyword", { 
+      sessionId: "session2", 
+      index: parseInt(editIndex, 10),
+      data: { keyword, response, image: imageBase64 }
+    });
+    form.removeAttribute("data-edit-index");
+    document.getElementById("cancel-edit-1").style.display = "none"; 
+  } else {
+    await ipcRenderer.invoke("add-keyword", { 
+      sessionId: "session2", 
+      data: { keyword, response, image: imageBase64 }
+    });
+  }
+
+  loadKeywords("session2", "keyword-list-2");
+  e.target.reset();
+});
+document.getElementById("cancel-edit-1").addEventListener("click", () => {
+  const form = document.getElementById("keyword-form-1");
+  form.removeAttribute("data-edit-index");
+  form.reset();
+  document.getElementById("cancel-edit-1").style.display = "none";
+});
+document.getElementById("cancel-edit-2").addEventListener("click", () => {
+  const form = document.getElementById("keyword-form-2");
+  form.removeAttribute("data-edit-index");
+  form.reset();
+  document.getElementById("cancel-edit-2").style.display = "none";
+});
+
+// === Logout Modal ===
+const logoutModal = document.getElementById("logout-modal");
+
+document.getElementById("logout-btn-1").addEventListener("click", () => {
+  logoutModal.style.display = "flex";
+  document.getElementById("logout-yes").onclick = async () => {
+    await ipcRenderer.invoke('logout', 'session1');
+    showNotification("Nomor 1 berhasil logout, silakan scan QR baru!");
+    logoutModal.style.display = "none";
+
+    document.getElementById("user-card-1").style.display = "none";
+    document.getElementById("profile-pic-1").style.display = "none";
+    document.getElementById("user-number-1").textContent = "-";
+    document.getElementById("user-name-1").textContent = "-";
+    document.getElementById("user-platform-1").textContent = "-";
+    document.getElementById("qr-image-1").style.display = "block";
+    document.getElementById("qr-status-1").textContent = "Mohon Ditunggu.......";
+    document.getElementById("logout-btn-1").style.display = "none";
+  };
+});
+
+document.getElementById("logout-btn-2").addEventListener("click", () => {
+  logoutModal.style.display = "flex";
+  document.getElementById("logout-yes").onclick = async () => {
+    await ipcRenderer.invoke('logout', 'session2');
+    showNotification("Nomor 2 berhasil logout, silakan scan QR baru!");
+    logoutModal.style.display = "none";
+
+    document.getElementById("user-card-2").style.display = "none";
+    document.getElementById("profile-pic-2").style.display = "none";
+    document.getElementById("user-number-2").textContent = "-";
+    document.getElementById("user-name-2").textContent = "-";
+    document.getElementById("user-platform-2").textContent = "-";
+    document.getElementById("qr-image-2").style.display = "block";
+    document.getElementById("qr-status-2").textContent = "Mohon Ditunggu.......";
+    document.getElementById("logout-btn-2").style.display = "none";
+  };
+});
+
+document.getElementById("logout-no").addEventListener("click", () => {
+  logoutModal.style.display = "none";
+});
+    // User 1
+document.getElementById("save-default-message-1").addEventListener("click", async () => {
+  const msg = document.getElementById("default-message-input-1").value.trim();
+  await ipcRenderer.invoke("set-default-message", { sessionId: "session1", message: msg });
+});
+
+// User 2
+document.getElementById("save-default-message-2").addEventListener("click", async () => {
+  const msg = document.getElementById("default-message-input-2").value.trim();
+  await ipcRenderer.invoke("set-default-message", { sessionId: "session2", message: msg });
+});
+
+document.getElementById("reset-default-sent-1").addEventListener("click", async () => {
+  await ipcRenderer.invoke("reset-default-message", "session1");
+  showNotification("Pesan default User 1 sudah direset!");
+});
+
+document.getElementById("reset-default-sent-2").addEventListener("click", async () => {
+  await ipcRenderer.invoke("reset-default-message", "session2");
+  showNotification("Pesan default User 2 sudah direset!");
+});
+
+    // === Custom Timer ===
+    document.getElementById("save-interval").addEventListener("click", async () => {
+      const hours = parseInt(document.getElementById("reset-hours").value, 10);
+      const minutes = parseInt(document.getElementById("reset-minutes").value, 10);
+      const totalMinutes = (hours * 60) + minutes;
+
+      if (totalMinutes < 1) {
+        return showNotification("Interval minimal 1 menit!", "error");
+      }
+
+      await ipcRenderer.invoke("set-reset-interval", totalMinutes);
+      showNotification(`Interval reset diubah ke ${hours} jam ${minutes} menit`);
+    });
+
+    // === Menu Bar Navigation ===
+    document.querySelectorAll(".menu-bar button").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const targetId = btn.getAttribute("data-target");
+
+        if (!targetId) return;
+
+        document.querySelectorAll(".content-section").forEach(sec => {
+          sec.style.display = "none";
+        });
+
+        document.getElementById(targetId).style.display = "block";
+
+        document.querySelectorAll(".menu-bar button").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+
+        localStorage.setItem("lastPage", targetId);
+      });
+    });
+// === Welcome Modal (tampil saat pertama kali buka app) ===
+window.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("welcome-modal").style.display = "flex";
+});
+
+document.getElementById("close-welcome").addEventListener("click", () => {
+  document.getElementById("welcome-modal").style.display = "none";
+});
+
+    const lastPage = localStorage.getItem("lastPage") || "user-section";
+    document.getElementById(lastPage).style.display = "block";
+    document.querySelector(`.menu-bar button[data-target='${lastPage}']`).classList.add("active");
+  </script>
+</body>
+</html>
