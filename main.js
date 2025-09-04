@@ -170,12 +170,11 @@ win.webContents.send(`show-profile-${sessionId}`);
   const sessionId = c.options.authStrategy.dataPath.split(path.sep).pop();
   const text = msg.body.toLowerCase();
 
-  let matched = null, firstIndex = Infinity;
+  let matched = null;
   for (const k of keywordResponses[sessionId]) {
-    const idx = text.indexOf(k.keyword.toLowerCase());
-    if (idx !== -1 && idx < firstIndex) {
-      firstIndex = idx;
+    if (text.startsWith(k.keyword.toLowerCase())) {
       matched = k;
+      break;
     }
   }
 
@@ -198,6 +197,7 @@ win.webContents.send(`show-profile-${sessionId}`);
     }
   }
 });
+
 
 
 
