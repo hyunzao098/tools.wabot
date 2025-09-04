@@ -303,27 +303,31 @@ app.whenReady().then(() => {
   autoUpdater.checkForUpdatesAndNotify();
 });
 
-autoUpdater.on("update-available", () => {
-  if (win) {
-    win.webContents.send("update-message", "🚀 Update baru tersedia, sedang diunduh...");
-  }
+autoUpdater.on("checking-for-update", () => {
+  win.webContents.send("update-message", { status: "🔍 Memeriksa update..." });
 });
-autoUpdater.on("update-downloaded", () => {
-  if (win) {
-    win.webContents.send("update-message", "✅ Update siap. Klik 'Restart' untuk install.");
-  }
 
-  // jangan langsung auto restart, tunggu user
-  ipcMain.once("confirm-update", () => {
-    autoUpdater.quitAndInstall();
+autoUpdater.on("update-available", () => {
+  win.webContents.send("update-message", { status: "🚀 Update baru tersedia, sedang diunduh..." });
+});
+
+autoUpdater.on("download-progress", (progress) => {
+  win.webContents.send("update-message", { 
+    status: `⬇️ Mengunduh update... ${Math.floor(progress.percent)}%`,
+    progress: progress.percent
   });
 });
 
 autoUpdater.on("update-downloaded", () => {
-  if (win) {
-    win.webContents.send("update-message", "✅ Update siap diinstall. Aplikasi akan restart...");
-  }
+  win.webContents.send("update-message", { status: "✅ Update siap. Klik 'Restart Sekarang' untuk install.", ready: true });
+});
+// Tambahkan di bawah autoUpdater.on("update-downloaded", ...)
+ipcMain.handle("confirm-update", () => {
   autoUpdater.quitAndInstall();
+});
+
+autoUpdater.on("error", (err) => {
+  win.webContents.send("update-message", { status: "❌ Gagal update: " + err.message });
 });
 
 autoUpdater.on("error", (err) => {
@@ -331,6 +335,7 @@ autoUpdater.on("error", (err) => {
     win.webContents.send("update-message", "❌ Gagal cek update: " + err.message);
   }
 });
+
 
 
 
