@@ -1,6 +1,6 @@
 {
   "name": "bot-whatsapp",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "description": "Tools WhatsApp Bot By Hyun09",
   "main": "main.js",
   "scripts": {
