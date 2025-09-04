@@ -24,13 +24,13 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: 22
 
       # 3. Install dependencies
       - name: Install dependencies
         run: npm install
 
-      # 4. Auto-commit changes (biar git bersih)
+      # 4. Auto-commit pending changes
       - name: Commit pending changes
         run: |
           git config user.name "Hyun09"
@@ -40,30 +40,28 @@ jobs:
 
       # 5. Bump version & create tag
       - name: Bump version & push tag
+        id: version_bump
         shell: bash
         run: |
           git config user.name "Hyun09"
           git config user.email "hyun@example.com"
           VERSION=$(npm version patch -m "Release v%s")
-          echo "New version: $VERSION"
+          echo "new_tag=$VERSION" >> $GITHUB_OUTPUT
           git push origin main --tags
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # 6. Show latest tag
-      - name: Show latest tag
-        run: git describe --tags
-
-      # 7. Build app with electron-builder
+      # 6. Build app with electron-builder
       - name: Build Electron App
         run: npm run dist -- --publish always
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # 8. Upload artifacts ke GitHub Release
+      # 7. Upload artifacts ke GitHub Release pakai tag
       - name: Upload Release Assets
         uses: softprops/action-gh-release@v1
         with:
+          tag_name: ${{ steps.version_bump.outputs.new_tag }}
           files: |
             dist/*.exe
             dist/latest.yml
