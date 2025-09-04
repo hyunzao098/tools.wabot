@@ -280,43 +280,37 @@ ipcMain.handle("set-reset-interval", (e, minutes) => {
 });
 
   // --- Auto Update ---
-// Periksa update saat app ready
 app.whenReady().then(() => {
+  // 🔥 Auto Update cek setelah app ready
   autoUpdater.checkForUpdatesAndNotify();
-});
 
-// Event update
-autoUpdater.on("checking-for-update", () => {
-  win.webContents.send("update-message", "🔍 Memeriksa update...");
-});
+  // Event update
+  autoUpdater.on("checking-for-update", () => {
+    if (win) win.webContents.send("update-message", "🔍 Memeriksa update...");
+  });
+  autoUpdater.on("update-available", (info) => {
+    if (win) win.webContents.send("update-available", info);
+  });
+  autoUpdater.on("update-not-available", () => {
+    if (win) win.webContents.send("update-message", "✅ Aplikasi sudah versi terbaru.");
+  });
+  autoUpdater.on("error", (err) => {
+    if (win) win.webContents.send("update-message", "❌ Error update: " + err.toString());
+  });
+  autoUpdater.on("download-progress", (progress) => {
+    if (win) win.webContents.send("update-progress", progress);
+  });
+  autoUpdater.on("update-downloaded", () => {
+    if (win) win.webContents.send("update-downloaded");
+  });
 
-autoUpdater.on("update-available", (info) => {
-  win.webContents.send("update-available", info);
-});
+  // IPC untuk install update
+  ipcMain.on("start-update", () => {
+    autoUpdater.quitAndInstall();
+  });
 
-autoUpdater.on("update-not-available", () => {
-  win.webContents.send("update-message", "✅ Aplikasi sudah versi terbaru.");
-});
-
-autoUpdater.on("error", (err) => {
-  win.webContents.send("update-message", "❌ Error update: " + err.toString());
-});
-
-autoUpdater.on("download-progress", (progress) => {
-  win.webContents.send("update-progress", progress);
-});
-
-autoUpdater.on("update-downloaded", () => {
-  win.webContents.send("update-downloaded");
-});
-
-// IPC dari renderer untuk mulai update
-ipcMain.on("start-update", () => {
-  autoUpdater.quitAndInstall();
-});
-
+  // 🔥 Init data file
   for (const sessionId of ["session1", "session2"]) {
-    // inisialisasi file JSON
     if (!fs.existsSync(getKeywordFile(sessionId))) saveJson(getKeywordFile(sessionId), []);
     if (!fs.existsSync(getDefaultMessageFile(sessionId))) saveJson(getDefaultMessageFile(sessionId), { message: "" });
     if (!fs.existsSync(getSentDefaultsFile(sessionId))) saveJson(getSentDefaultsFile(sessionId), []);
@@ -326,19 +320,19 @@ ipcMain.on("start-update", () => {
     defaultMessageSent[sessionId] = new Set(loadJson(getSentDefaultsFile(sessionId), []));
   }
 
+  // 🔥 Window & Client baru setelah app ready
   createWindow();
-
   clients.push(createClient("session1"));
   clients.push(createClient("session2"));
-
   autoResetDefaultMessage();
+});
 
+// Tutup app kalau semua window ditutup
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') app.quit();
 });
 app.on('activate', () => {
   if (BrowserWindow.getAllWindows().length === 0) {
-    console.log("🪟 Re-creating window on activate...");
     createWindow();
   }
 });
