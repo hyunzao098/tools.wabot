@@ -30,7 +30,7 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      # 4. Auto-commit pending changes
+      # 4. Commit pending changes
       - name: Commit pending changes
         run: |
           git config user.name "Hyun09"
@@ -51,16 +51,15 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # 6. Build app with electron-builder
+      # 6. Build Electron App (no publish, hanya build lokal)
       - name: Build Electron App
-        run: npm run dist -- --publish always
+        run: npm run dist -- --publish never
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ELECTRON_BUILDER_CACHE: ~/.cache/electron-builder
-          NODE_TLS_REJECT_UNAUTHORIZED: 0
           ELECTRON_BUILDER_TIMEOUT: 600000
 
-      # 7. Upload artifacts ke GitHub Release pakai tag
+      # 7. Upload hasil build ke GitHub Release
       - name: Upload Release Assets
         uses: softprops/action-gh-release@v1
         with:
@@ -70,13 +69,3 @@ jobs:
             dist/latest.yml
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          
-      - name: Cache Electron binaries
-        uses: actions/cache@v3
-        with:
-          path: |
-            ~/.cache/electron
-            ~/.cache/electron-builder
-          key: electron-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            electron-${{ runner.os }}-
