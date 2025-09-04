@@ -279,8 +279,42 @@ ipcMain.handle("set-reset-interval", (e, minutes) => {
   return RESET_INTERVAL;
 });
 
-// --- App Lifecycle ---
+  // --- Auto Update ---
+// Periksa update saat app ready
 app.whenReady().then(() => {
+  autoUpdater.checkForUpdatesAndNotify();
+});
+
+// Event update
+autoUpdater.on("checking-for-update", () => {
+  win.webContents.send("update-message", "🔍 Memeriksa update...");
+});
+
+autoUpdater.on("update-available", (info) => {
+  win.webContents.send("update-available", info);
+});
+
+autoUpdater.on("update-not-available", () => {
+  win.webContents.send("update-message", "✅ Aplikasi sudah versi terbaru.");
+});
+
+autoUpdater.on("error", (err) => {
+  win.webContents.send("update-message", "❌ Error update: " + err.toString());
+});
+
+autoUpdater.on("download-progress", (progress) => {
+  win.webContents.send("update-progress", progress);
+});
+
+autoUpdater.on("update-downloaded", () => {
+  win.webContents.send("update-downloaded");
+});
+
+// IPC dari renderer untuk mulai update
+ipcMain.on("start-update", () => {
+  autoUpdater.quitAndInstall();
+});
+
   for (const sessionId of ["session1", "session2"]) {
     // inisialisasi file JSON
     if (!fs.existsSync(getKeywordFile(sessionId))) saveJson(getKeywordFile(sessionId), []);
@@ -298,46 +332,6 @@ app.whenReady().then(() => {
   clients.push(createClient("session2"));
 
   autoResetDefaultMessage();
-
-  // 🔥 Cek update otomatis
-  autoUpdater.checkForUpdatesAndNotify();
-});
-
-autoUpdater.on("checking-for-update", () => {
-  win.webContents.send("update-message", { status: "🔍 Memeriksa update..." });
-});
-
-autoUpdater.on("update-available", () => {
-  win.webContents.send("update-message", { status: "🚀 Update baru tersedia, sedang diunduh..." });
-});
-
-autoUpdater.on("download-progress", (progress) => {
-  win.webContents.send("update-message", { 
-    status: `⬇️ Mengunduh update... ${Math.floor(progress.percent)}%`,
-    progress: progress.percent
-  });
-});
-
-autoUpdater.on("update-downloaded", () => {
-  win.webContents.send("update-message", { status: "✅ Update siap. Klik 'Restart Sekarang' untuk install.", ready: true });
-});
-// Tambahkan di bawah autoUpdater.on("update-downloaded", ...)
-ipcMain.handle("confirm-update", () => {
-  autoUpdater.quitAndInstall();
-});
-
-autoUpdater.on("error", (err) => {
-  win.webContents.send("update-message", { status: "❌ Gagal update: " + err.message });
-});
-
-autoUpdater.on("error", (err) => {
-  if (win) {
-    win.webContents.send("update-message", "❌ Gagal cek update: " + err.message);
-  }
-});
-
-
-
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') app.quit();
