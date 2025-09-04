@@ -56,6 +56,9 @@ jobs:
         run: npm run dist -- --publish always
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ELECTRON_BUILDER_CACHE: ~/.cache/electron-builder
+          NODE_TLS_REJECT_UNAUTHORIZED: 0
+          ELECTRON_BUILDER_TIMEOUT: 600000
 
       # 7. Upload artifacts ke GitHub Release pakai tag
       - name: Upload Release Assets
@@ -67,3 +70,13 @@ jobs:
             dist/latest.yml
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Cache Electron binaries
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cache/electron
+            ~/.cache/electron-builder
+          key: electron-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            electron-${{ runner.os }}-
